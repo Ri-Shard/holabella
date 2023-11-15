@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:holabella/ui/resources/buttons.dart';
-import 'package:holabella/ui/resources/custom_text.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class LoginBaseScreen extends StatelessWidget {
+  const LoginBaseScreen({super.key});
 
-  final TextEditingController email = TextEditingController();
-  final TextEditingController password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,30 +22,9 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(
                 height: 60,
               ),
-              SvgPicture.asset('assets/svg/LogoOcreoscuroyclaro.svg'),
+              SvgPicture.asset('assets/svg/LogoOcreBase.svg'),
               const SizedBox(
                 height: 60,
-              ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: CustomText(
-                    controller: email,
-                    labeltext: 'Correo',
-                    prefix: const Icon(Icons.mail_outline_rounded),
-                    suffix: const Icon(Icons.cancel_outlined),
-                  )),
-              const SizedBox(
-                height: 17,
-              ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: CustomText(
-                    controller: password,
-                    labeltext: 'Contraseña',
-                    prefix: const Icon(Icons.password),
-                  )),
-              const SizedBox(
-                height: 17,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -66,6 +42,28 @@ class LoginScreen extends StatelessWidget {
                     ],
                   ),
                   color: MyTheme.ocreBase,
+                  ontap: () {},
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Buttons(
+                  content: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(30),
+                        child: Text(
+                          'Registrarse',
+                          style: MyTheme.basicTextStyle(),
+                        ),
+                      ),
+                    ],
+                  ),
+                  color: Colors.transparent,
                   ontap: () {},
                 ),
               ),

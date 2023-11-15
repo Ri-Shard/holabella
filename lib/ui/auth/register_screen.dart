@@ -4,11 +4,13 @@ import 'package:holabella/ui/resources/buttons.dart';
 import 'package:holabella/ui/resources/custom_text.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  RegisterScreen({super.key});
 
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
+  final TextEditingController passwordConfirm = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +53,16 @@ class LoginScreen extends StatelessWidget {
                 height: 17,
               ),
               Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: CustomText(
+                    controller: passwordConfirm,
+                    labeltext: 'Verifica tu contraseña',
+                    prefix: const Icon(Icons.password),
+                  )),
+              const SizedBox(
+                height: 17,
+              ),
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Buttons(
                   content: Row(
@@ -59,7 +71,7 @@ class LoginScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(30),
                         child: Text(
-                          'Iniciar Sesion',
+                          'Registrarse',
                           style: MyTheme.basicTextStyle(),
                         ),
                       ),
@@ -70,7 +82,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 100,
+                height: 60,
               ),
               Text(
                 '- O acceder con -',
