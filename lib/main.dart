@@ -6,11 +6,13 @@ import 'package:holabella/ui/auth/register_screen.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
 import 'package:holabella/ui/splash/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
-
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
