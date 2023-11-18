@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:holabella/ui/auth/login_base_screen.dart';
 import 'package:holabella/ui/auth/login_screen.dart';
 import 'package:holabella/ui/auth/register_screen.dart';
@@ -21,13 +22,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: MyTheme.ocreOscuro),
           useMaterial3: true,
         ),
-        home: RegisterScreen());
+        home: LoginBaseScreen());
   }
 }
