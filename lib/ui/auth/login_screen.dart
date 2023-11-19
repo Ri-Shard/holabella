@@ -12,6 +12,7 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   final authController = Get.find<AuthController>();
+  final GlobalKey<FormState> _key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -28,99 +29,136 @@ class LoginScreen extends StatelessWidget {
                   fit: BoxFit.fill,
                 ),
                 SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(
-                        height: 60,
-                      ),
-                      SvgPicture.asset('assets/svg/LogoOcreoscuroyclaro.svg'),
-                      const SizedBox(
-                        height: 60,
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: CustomText(
-                            inputType: TextInputType.emailAddress,
-                            controller: email,
-                            labeltext: 'Correo',
-                            prefix: const Icon(Icons.mail_outline_rounded),
-                            suffix: const Icon(Icons.cancel_outlined),
-                          )),
-                      const SizedBox(
-                        height: 17,
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: CustomText(
-                            obscureText: true,
-                            controller: password,
-                            labeltext: 'Contraseña',
-                            prefix: const Icon(Icons.password),
-                          )),
-                      const SizedBox(
-                        height: 17,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                        child: Buttons(
-                          content: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(30),
-                                child: Text(
-                                  'Iniciar Sesion',
-                                  style: MyTheme.basicTextStyle(),
-                                ),
-                              ),
-                            ],
-                          ),
-                          color: MyTheme.ocreBase,
-                          ontap: () {
-                            _.signInMail(
-                                email.text.trim(), password.text.trim());
-                          },
+                  child: Form(
+                    key: _key,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          height: 60,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 100,
-                      ),
-                      Text(
-                        '- O acceder con -',
-                        style: MyTheme.basicTextStyle(
-                            size: 14, color: MyTheme.ocreOscuro),
-                      ),
-                      const SizedBox(
-                        height: 60,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Buttons(
-                            borderradius: 20,
-                            content: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 20.0),
-                              child: SvgPicture.asset(
-                                  'assets/svg/facebookLogo.svg'),
+                        SvgPicture.asset('assets/svg/LogoOcreoscuroyclaro.svg'),
+                        const SizedBox(
+                          height: 60,
+                        ),
+                        Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: CustomText(
+                              validator: (p0) {
+                                if (p0!.isEmpty) {
+                                  return 'Campo vacio, ingrese un correo';
+                                }
+                                if (p0 != null) {
+                                  if (!GetUtils.isEmail(p0.trim())) {
+                                    return 'Correo no valido';
+                                  }
+                                }
+                              },
+                              onChanged: (text) {
+                                _.update(['loginView']);
+                              },
+                              inputType: TextInputType.emailAddress,
+                              controller: email,
+                              labeltext: 'Correo',
+                              prefix: const Icon(Icons.mail_outline_rounded),
+                              suffix: InkWell(
+                                child: const Icon(Icons.cancel_outlined),
+                                onTap: () {
+                                  email.clear();
+                                  _.update(['loginView']);
+                                },
+                              ),
+                            )),
+                        const SizedBox(
+                          height: 17,
+                        ),
+                        Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: CustomText(
+                              validator: (p0) {
+                                if (p0!.isEmpty) {
+                                  return 'Campo vacio, ingrese una contraseña valida';
+                                }
+                                if (p0.length < 6) {
+                                  return 'La contraseña debe tener mas de 6 caracteres';
+                                }
+                              },
+                              obscureText: true,
+                              controller: password,
+                              labeltext: 'Contraseña',
+                              prefix: const Icon(Icons.password),
+                            )),
+                        const SizedBox(
+                          height: 17,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                          child: Hero(
+                            tag: 'loginBtn',
+                            child: Buttons(
+                              content: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(30),
+                                    child: Text(
+                                      'Iniciar Sesion',
+                                      style: MyTheme.basicTextStyle(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              color: MyTheme.ocreBase,
+                              ontap: () {
+                                if (_key.currentState!.validate()) {
+                                  _.signInMail(
+                                      email.text.trim(), password.text.trim());
+                                }
+                              },
                             ),
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Buttons(
-                            borderradius: 20,
-                            content: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 20.0),
-                              child:
-                                  SvgPicture.asset('assets/svg/GoogleLogo.svg'),
+                        ),
+                        const SizedBox(
+                          height: 100,
+                        ),
+                        Text(
+                          '- O acceder con -',
+                          style: MyTheme.basicTextStyle(
+                              size: 14, color: MyTheme.ocreOscuro),
+                        ),
+                        const SizedBox(
+                          height: 60,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Buttons(
+                              borderradius: 20,
+                              content: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20.0),
+                                child: SvgPicture.asset(
+                                    'assets/svg/facebookLogo.svg'),
+                              ),
                             ),
-                          )
-                        ],
-                      )
-                    ],
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Buttons(
+                              borderradius: 20,
+                              content: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20.0),
+                                child: SvgPicture.asset(
+                                    'assets/svg/GoogleLogo.svg'),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 )
               ],

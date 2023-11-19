@@ -8,6 +8,8 @@ class CustomText extends StatefulWidget {
   final TextInputType? inputType;
   final bool? obscureText;
   final Function(String)? onChanged;
+  final String? Function(String?)? validator;
+
   const CustomText(
       {super.key,
       this.labeltext,
@@ -16,7 +18,8 @@ class CustomText extends StatefulWidget {
       this.controller,
       this.inputType,
       this.obscureText,
-      this.onChanged});
+      this.onChanged,
+      this.validator});
 
   @override
   State<CustomText> createState() => CustomTextState();
@@ -25,7 +28,8 @@ class CustomText extends StatefulWidget {
 class CustomTextState extends State<CustomText> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      validator: widget.validator,
       obscureText: widget.obscureText ?? false,
       keyboardType: widget.inputType,
       controller: widget.controller,

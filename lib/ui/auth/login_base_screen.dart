@@ -12,7 +12,7 @@ class LoginBaseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authController = Get.put(AuthController());
+    final authController = Get.find<AuthController>();
 
     return Scaffold(
       body: GetBuilder(
@@ -38,23 +38,26 @@ class LoginBaseScreen extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Buttons(
-                        content: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(30),
-                              child: Text(
-                                'Iniciar Sesion',
-                                style: MyTheme.basicTextStyle(),
+                      child: Hero(
+                        tag: 'loginBtn',
+                        child: Buttons(
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(30),
+                                child: Text(
+                                  'Iniciar Sesion',
+                                  style: MyTheme.basicTextStyle(),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
+                          color: MyTheme.ocreBase,
+                          ontap: () {
+                            Get.to(LoginScreen());
+                          },
                         ),
-                        color: MyTheme.ocreBase,
-                        ontap: () {
-                          Get.to(LoginScreen());
-                        },
                       ),
                     ),
                     const SizedBox(
@@ -62,23 +65,27 @@ class LoginBaseScreen extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Buttons(
-                        content: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(30),
-                              child: Text(
-                                'Registrarse',
-                                style: MyTheme.basicTextStyle(),
+                      child: Hero(
+                        tag: 'registerBtn',
+                        child: Buttons(
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(30),
+                                child: Text(
+                                  'Registrarse',
+                                  style: MyTheme.basicTextStyle(
+                                      color: MyTheme.ocreOscuro),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
+                          color: Colors.transparent,
+                          ontap: () {
+                            Get.to(RegisterScreen());
+                          },
                         ),
-                        color: Colors.transparent,
-                        ontap: () {
-                          Get.to(RegisterScreen());
-                        },
                       ),
                     ),
                     const SizedBox(
