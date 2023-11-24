@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController password = TextEditingController();
   final authController = Get.find<AuthController>();
   final GlobalKey<FormState> _key = GlobalKey();
-
+  bool obscureText = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,6 +77,9 @@ class LoginScreen extends StatelessWidget {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 25.0),
                             child: CustomText(
+                              onChanged: (text) {
+                                _.update(['loginView']);
+                              },
                               validator: (p0) {
                                 if (p0!.isEmpty) {
                                   return 'Campo vacio, ingrese una contraseña valida';
@@ -85,7 +88,16 @@ class LoginScreen extends StatelessWidget {
                                   return 'La contraseña debe tener mas de 6 caracteres';
                                 }
                               },
-                              obscureText: true,
+                              suffix: InkWell(
+                                child: Icon(!obscureText
+                                    ? Icons.visibility_off_outlined
+                                    : Icons.visibility_outlined),
+                                onTap: () {
+                                  obscureText = !obscureText;
+                                  _.update(['registerView']);
+                                },
+                              ),
+                              obscureText: obscureText,
                               controller: password,
                               labeltext: 'Contraseña',
                               prefix: const Icon(Icons.password),
@@ -135,6 +147,9 @@ class LoginScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Buttons(
+                              ontap: () {
+                                print('ASDDDDDDDDDDDDD');
+                              },
                               borderradius: 20,
                               content: Padding(
                                 padding:
@@ -147,6 +162,10 @@ class LoginScreen extends StatelessWidget {
                               width: 10,
                             ),
                             Buttons(
+                              ontap: () {
+                                print('ASDDDDDDDDDDDDD');
+                                authController.signInWithGoogle();
+                              },
                               borderradius: 20,
                               content: Padding(
                                 padding:

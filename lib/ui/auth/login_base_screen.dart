@@ -114,6 +114,9 @@ class LoginBaseScreen extends StatelessWidget {
                           width: 10,
                         ),
                         Buttons(
+                          ontap: () {
+                            authController.signInWithGoogle();
+                          },
                           borderradius: 20,
                           content: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 20.0),

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:get/get.dart';
 import 'package:holabella/repositories/database_repository.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../models/user_model.dart';
 
@@ -34,6 +35,32 @@ class AuthController extends GetxController {
     if (response != null) {
       DataBaseRepository().saveUser(user);
     }
+  }
+
+  Future<String?> signInWithGoogle() async {
+    String? response;
+
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      // Create a new credential
+      final credential = auth.GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      response =
+          (await authInstance.signInWithCredential(credential)).user?.email;
+      if (response != null) {
+        Get.offAllNamed('/home');
+      }
+    } catch (e) {
+      response = e.toString();
+    }
+    return response;
   }
 
   verifyUser() async {

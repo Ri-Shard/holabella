@@ -80,6 +80,8 @@ class RegisterScreen extends StatelessWidget {
                       id: 'registerView',
                       init: Get.find<AuthController>(),
                       builder: (_) {
+                        email.text = _.authInstance.currentUser?.email ?? "";
+
                         return Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -101,6 +103,7 @@ class RegisterScreen extends StatelessWidget {
                                     _.update(['registerView']);
                                   },
                                   inputType: TextInputType.emailAddress,
+                                  enable: false,
                                   controller: email,
                                   labeltext: 'Correo',
                                   prefix:
@@ -163,9 +166,15 @@ class RegisterScreen extends StatelessWidget {
                                   onChanged: (text) {
                                     _.update(['registerView']);
                                   },
-                                  suffix: Icon(!obscureText
-                                      ? Icons.visibility_off_outlined
-                                      : Icons.visibility_outlined),
+                                  suffix: InkWell(
+                                    child: Icon(!obscureText
+                                        ? Icons.visibility_off_outlined
+                                        : Icons.visibility_outlined),
+                                    onTap: () {
+                                      obscureText = !obscureText;
+                                      _.update(['registerView']);
+                                    },
+                                  ),
                                   obscureText: obscureText,
                                   controller: passwordConfirm,
                                   labeltext: 'Verifica tu contraseña',
@@ -213,37 +222,6 @@ class RegisterScreen extends StatelessWidget {
                   const SizedBox(
                     height: 60,
                   ),
-                  Text(
-                    '- O acceder con -',
-                    style: MyTheme.basicTextStyle(
-                        size: 14, color: MyTheme.ocreOscuro),
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Buttons(
-                        borderradius: 20,
-                        content: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20.0),
-                          child:
-                              SvgPicture.asset('assets/svg/facebookLogo.svg'),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Buttons(
-                        borderradius: 20,
-                        content: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20.0),
-                          child: SvgPicture.asset('assets/svg/GoogleLogo.svg'),
-                        ),
-                      )
-                    ],
-                  )
                 ],
               ),
             ),
