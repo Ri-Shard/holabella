@@ -18,9 +18,11 @@ class RegisterScreen extends StatelessWidget {
   final TextEditingController passwordConfirm = TextEditingController();
   bool obscureText = true;
   final GlobalKey<FormState> _key = GlobalKey();
+  bool visible = true;
 
   @override
   Widget build(BuildContext context) {
+    visible = Get.arguments == 'password';
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -119,67 +121,73 @@ class RegisterScreen extends StatelessWidget {
                             const SizedBox(
                               height: 17,
                             ),
-                            Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 25.0),
-                                child: CustomText(
-                                  validator: (p0) {
-                                    if (p0!.isEmpty) {
-                                      return 'Campo vacio, ingrese una contraseña valida';
-                                    }
-                                    if (p0.length < 6) {
-                                      return 'La contraseña debe tener mas de 6 caracteres';
-                                    }
-                                  },
-                                  onChanged: (text) {
-                                    _.update(['registerView']);
-                                  },
-                                  suffix: InkWell(
-                                    child: Icon(!obscureText
-                                        ? Icons.visibility_off_outlined
-                                        : Icons.visibility_outlined),
-                                    onTap: () {
-                                      obscureText = !obscureText;
+                            Visibility(
+                              visible: visible,
+                              child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25.0),
+                                  child: CustomText(
+                                    validator: (p0) {
+                                      if (p0!.isEmpty) {
+                                        return 'Campo vacio, ingrese una contraseña valida';
+                                      }
+                                      if (p0.length < 6) {
+                                        return 'La contraseña debe tener mas de 6 caracteres';
+                                      }
+                                    },
+                                    onChanged: (text) {
                                       _.update(['registerView']);
                                     },
-                                  ),
-                                  obscureText: obscureText,
-                                  controller: password,
-                                  labeltext: 'Contraseña',
-                                  prefix: const Icon(Icons.password),
-                                )),
+                                    suffix: InkWell(
+                                      child: Icon(!obscureText
+                                          ? Icons.visibility_off_outlined
+                                          : Icons.visibility_outlined),
+                                      onTap: () {
+                                        obscureText = !obscureText;
+                                        _.update(['registerView']);
+                                      },
+                                    ),
+                                    obscureText: obscureText,
+                                    controller: password,
+                                    labeltext: 'Contraseña',
+                                    prefix: const Icon(Icons.password),
+                                  )),
+                            ),
                             const SizedBox(
                               height: 17,
                             ),
-                            Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 25.0),
-                                child: CustomText(
-                                  validator: (p0) {
-                                    if (p0!.isEmpty) {
-                                      return 'Campo vacio, ingrese la confirmacion de contraseña';
-                                    }
-                                    if (p0.length < 6) {
-                                      return 'La contraseña debe tener mas de 6 caracteres';
-                                    }
-                                  },
-                                  onChanged: (text) {
-                                    _.update(['registerView']);
-                                  },
-                                  suffix: InkWell(
-                                    child: Icon(!obscureText
-                                        ? Icons.visibility_off_outlined
-                                        : Icons.visibility_outlined),
-                                    onTap: () {
-                                      obscureText = !obscureText;
+                            Visibility(
+                              visible: visible,
+                              child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25.0),
+                                  child: CustomText(
+                                    validator: (p0) {
+                                      if (p0!.isEmpty) {
+                                        return 'Campo vacio, ingrese la confirmacion de contraseña';
+                                      }
+                                      if (p0.length < 6) {
+                                        return 'La contraseña debe tener mas de 6 caracteres';
+                                      }
+                                    },
+                                    onChanged: (text) {
                                       _.update(['registerView']);
                                     },
-                                  ),
-                                  obscureText: obscureText,
-                                  controller: passwordConfirm,
-                                  labeltext: 'Verifica tu contraseña',
-                                  prefix: const Icon(Icons.password),
-                                )),
+                                    suffix: InkWell(
+                                      child: Icon(!obscureText
+                                          ? Icons.visibility_off_outlined
+                                          : Icons.visibility_outlined),
+                                      onTap: () {
+                                        obscureText = !obscureText;
+                                        _.update(['registerView']);
+                                      },
+                                    ),
+                                    obscureText: obscureText,
+                                    controller: passwordConfirm,
+                                    labeltext: 'Verifica tu contraseña',
+                                    prefix: const Icon(Icons.password),
+                                  )),
+                            ),
                             const SizedBox(
                               height: 17,
                             ),
@@ -204,13 +212,18 @@ class RegisterScreen extends StatelessWidget {
                                   color: MyTheme.ocreBase,
                                   ontap: () {
                                     if (_key.currentState!.validate()) {
-                                      _.signUpMail(
-                                          email.text.trim(),
-                                          password.text.trim(),
-                                          User(
+                                      Get.arguments != "password"
+                                          ? _.saveUser(User(
                                               email: email.text.trim(),
                                               name: name.text.trim(),
-                                              phone: phone.text.trim()));
+                                              phone: phone.text.trim()))
+                                          : _.signUpMail(
+                                              email.text.trim(),
+                                              password.text.trim(),
+                                              User(
+                                                  email: email.text.trim(),
+                                                  name: name.text.trim(),
+                                                  phone: phone.text.trim()));
                                     }
                                   },
                                 ),

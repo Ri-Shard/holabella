@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:holabella/ui/auth/auth_controller.dart';
 import 'package:holabella/ui/resources/buttons.dart';
 import 'package:holabella/ui/resources/custom_text.dart';
+import 'package:holabella/ui/resources/loading_dialog.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -164,6 +165,11 @@ class LoginScreen extends StatelessWidget {
                             Buttons(
                               ontap: () {
                                 print('ASDDDDDDDDDDDDD');
+                                showDialog(
+                                    context: context,
+                                    builder: (__) {
+                                      return LoadingModal();
+                                    });
                                 authController.signInWithGoogle();
                               },
                               borderradius: 20,

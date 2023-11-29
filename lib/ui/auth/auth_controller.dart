@@ -21,10 +21,15 @@ class AuthController extends GetxController {
   }
 
   Future<String?> signInMail(String email, String password) async {
-    final response = await authInstance
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((value) => value.user?.email);
-    return response;
+    try {
+      final response = await authInstance
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) => value.user?.email);
+      if (response != null) {
+        Get.offAllNamed('/home');
+      }
+      return response;
+    } catch (e) {}
   }
 
   Future<String?> signUpMail(String email, String password, User user) async {
@@ -33,8 +38,13 @@ class AuthController extends GetxController {
         .then((value) => value.user?.email);
 
     if (response != null) {
-      DataBaseRepository().saveUser(user);
+      await saveUser(user);
     }
+  }
+
+  saveUser(User user) async {
+    await DataBaseRepository().saveUser(user);
+    Get.offAllNamed('/home');
   }
 
   Future<String?> signInWithGoogle() async {
@@ -55,10 +65,11 @@ class AuthController extends GetxController {
       response =
           (await authInstance.signInWithCredential(credential)).user?.email;
       if (response != null) {
-        Get.offAllNamed('/home');
+        Get.offAllNamed('/register');
       }
     } catch (e) {
       response = e.toString();
+      Get.back();
     }
     return response;
   }
@@ -71,7 +82,8 @@ class AuthController extends GetxController {
       if (response != null) {
         Get.offAllNamed('/home');
       } else {
-        Get.offAllNamed('/register');
+        Get.offAllNamed('/register',
+            arguments: localUser.providerData.first.providerId);
       }
     } else {
       Get.offAllNamed('/loginbase');
