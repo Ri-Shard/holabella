@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -77,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           fontWeight: FontWeight.w400),
                                     ),
                                     const SizedBox(
-                                      height: 22,
+                                      height: 10,
                                     )
                                   ],
                                 ),
@@ -145,17 +146,43 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Flexible(
                         flex: 4,
-                        child: Container(
-                          margin: const EdgeInsets.all(7),
-                          width: double.maxFinite,
-                          height: double.maxFinite,
-                          decoration: BoxDecoration(
-                              image: const DecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/servicioshome.png'),
-                                  fit: BoxFit.cover),
-                              color: Colors.amber,
-                              borderRadius: BorderRadius.circular(20)),
+                        child: Hero(
+                          tag: 'selectservice',
+                          child: Material(
+                            child: InkWell(
+                              onTap: () {
+                                Get.toNamed('/selectservice');
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.all(7),
+                                width: double.maxFinite,
+                                height: double.maxFinite,
+                                decoration: BoxDecoration(
+                                    image: const DecorationImage(
+                                        image: AssetImage(
+                                            'assets/images/servicioshome.png'),
+                                        fit: BoxFit.cover),
+                                    color: Colors.amber,
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      ' Uñas,\n Maquillaje y\n Spa',
+                                      maxLines: 3,
+                                      style: MyTheme.basicTextStyle(
+                                          size: 30,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                       Flexible(

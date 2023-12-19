@@ -3,6 +3,7 @@ import 'package:holabella/ui/auth/login_base_screen.dart';
 import 'package:holabella/ui/auth/login_screen.dart';
 import 'package:holabella/ui/auth/register_screen.dart';
 import 'package:holabella/ui/home/home.screen.dart';
+import 'package:holabella/ui/service_screens/select_service_screen.dart';
 import 'package:holabella/ui/splash/splash_screen.dart';
 
 appRoutes() => [
@@ -37,6 +38,13 @@ appRoutes() => [
       GetPage(
         name: '/home',
         page: () => const HomeScreen(),
+        middlewares: [MyMiddelware()],
+        transition: Transition.downToUp,
+        transitionDuration: const Duration(milliseconds: 200),
+      ),
+      GetPage(
+        name: '/selectservice',
+        page: () => const SelectServiceScreen(),
         middlewares: [MyMiddelware()],
         transition: Transition.downToUp,
         transitionDuration: const Duration(milliseconds: 200),

@@ -13,7 +13,6 @@ class MyTheme {
       fontSize: size ?? 20,
       fontFamily: 'Jost',
       fontWeight: fontWeight ?? FontWeight.w600,
-      height: 0.05,
       letterSpacing: 0.10,
     );
   }

@@ -148,9 +148,7 @@ class LoginScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Buttons(
-                              ontap: () {
-                                print('ASDDDDDDDDDDDDD');
-                              },
+                              ontap: () {},
                               borderradius: 20,
                               content: Padding(
                                 padding:
@@ -164,7 +162,6 @@ class LoginScreen extends StatelessWidget {
                             ),
                             Buttons(
                               ontap: () {
-                                print('ASDDDDDDDDDDDDD');
                                 showDialog(
                                     context: context,
                                     builder: (__) {

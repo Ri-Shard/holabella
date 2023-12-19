@@ -10,6 +10,7 @@ import 'package:holabella/ui/routes.dart';
 import 'package:holabella/ui/splash/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
+import 'package:sizer/sizer.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,15 +27,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(AuthController());
 
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      getPages: appRoutes(),
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: MyTheme.ocreOscuro),
-        useMaterial3: true,
-      ),
-      initialRoute: '/splash',
-    );
+    return Sizer(builder: (context, orientation, deviceType) {
+      return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        getPages: appRoutes(),
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: MyTheme.ocreOscuro),
+          useMaterial3: true,
+        ),
+        initialRoute: '/splash',
+      );
+    });
   }
 }
