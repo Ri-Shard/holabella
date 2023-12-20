@@ -75,7 +75,7 @@ class AuthController extends GetxController {
   }
 
   verifyUser() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     final localUser = authInstance.currentUser;
     if (localUser != null) {
       final response = await DataBaseRepository().verifyUser(localUser.email!);

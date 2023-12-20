@@ -22,7 +22,8 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    visible = Get.arguments == 'password';
+    visible = Get.arguments == 'password' ? false : true;
+
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -82,7 +83,9 @@ class RegisterScreen extends StatelessWidget {
                       id: 'registerView',
                       init: Get.find<AuthController>(),
                       builder: (_) {
-                        email.text = _.authInstance.currentUser?.email ?? "";
+                        if (email.text.isEmpty) {
+                          email.text = _.authInstance.currentUser?.email ?? "";
+                        }
 
                         return Column(
                           mainAxisSize: MainAxisSize.min,
@@ -105,7 +108,7 @@ class RegisterScreen extends StatelessWidget {
                                     _.update(['registerView']);
                                   },
                                   inputType: TextInputType.emailAddress,
-                                  enable: false,
+                                  enable: visible,
                                   controller: email,
                                   labeltext: 'Correo',
                                   prefix:
@@ -212,18 +215,27 @@ class RegisterScreen extends StatelessWidget {
                                   color: MyTheme.ocreBase,
                                   ontap: () {
                                     if (_key.currentState!.validate()) {
-                                      Get.arguments != "password"
-                                          ? _.saveUser(User(
-                                              email: email.text.trim(),
-                                              name: name.text.trim(),
-                                              phone: phone.text.trim()))
-                                          : _.signUpMail(
-                                              email.text.trim(),
-                                              password.text.trim(),
-                                              User(
-                                                  email: email.text.trim(),
-                                                  name: name.text.trim(),
-                                                  phone: phone.text.trim()));
+                                      if (Get.arguments != "password") {
+                                        _.signUpMail(
+                                            email.text.trim(),
+                                            password.text.trim(),
+                                            User(
+                                                email: email.text.trim(),
+                                                name: name.text.trim(),
+                                                phone: phone.text.trim()));
+                                        _.saveUser(User(
+                                            email: email.text.trim(),
+                                            name: name.text.trim(),
+                                            phone: phone.text.trim()));
+                                      } else {
+                                        _.signUpMail(
+                                            email.text.trim(),
+                                            password.text.trim(),
+                                            User(
+                                                email: email.text.trim(),
+                                                name: name.text.trim(),
+                                                phone: phone.text.trim()));
+                                      }
                                     }
                                   },
                                 ),
