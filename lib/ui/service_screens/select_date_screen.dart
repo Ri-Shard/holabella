@@ -1,10 +1,13 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:holabella/ui/resources/bottom_navigation_bar.dart';
 import 'package:holabella/ui/resources/custom_select.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
 import 'package:sizer/sizer.dart';
 import 'package:intl/intl.dart';
+import 'package:sizer/sizer.dart';
 
 class SelectDateScreen extends StatefulWidget {
   const SelectDateScreen({super.key});
@@ -28,25 +31,7 @@ class _SelectDateScreenState extends State<SelectDateScreen> {
           fit: BoxFit.fill,
         ),
         Scaffold(
-          bottomNavigationBar: Container(
-            margin: const EdgeInsets.all(20),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.search_rounded,
-                  color: MyTheme.fucsia,
-                ),
-                SizedBox(
-                  width: 50,
-                ),
-                Icon(
-                  Icons.home_filled,
-                  color: MyTheme.verdeMenta,
-                )
-              ],
-            ),
-          ),
+          bottomNavigationBar: const CustomBottomNavigationBar(),
           drawer: const Drawer(),
           appBar: AppBar(
             actions: const [
@@ -136,32 +121,50 @@ class _SelectDateScreenState extends State<SelectDateScreen> {
               Container(
                 margin: const EdgeInsets.all(20),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(
-                      child: RotatedBox(
-                        quarterTurns: 2,
-                        child: SvgPicture.asset('assets/svg/Arrow.svg'),
+                    GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 10.w,
+                            child: RotatedBox(
+                              quarterTurns: 2,
+                              child: SvgPicture.asset('assets/svg/Arrow.svg'),
+                            ),
+                          ),
+                          Text(
+                            '   ANTERIOR',
+                            style: MyTheme.basicTextStyle(
+                                color: MyTheme.ocreBase,
+                                size: 20,
+                                fontWeight: FontWeight.normal),
+                          ),
+                        ],
                       ),
                     ),
-                    Text(
-                      '   ANTERIOR',
-                      style: MyTheme.basicTextStyle(
-                          color: MyTheme.ocreBase,
-                          size: 20,
-                          fontWeight: FontWeight.normal),
-                    ),
-                    const SizedBox(
-                      width: 50,
-                    ),
-                    Text(
-                      'SIGUIENTE   ',
-                      style: MyTheme.basicTextStyle(
-                          color: MyTheme.ocreBase,
-                          size: 20,
-                          fontWeight: FontWeight.normal),
-                    ),
-                    Flexible(child: SvgPicture.asset('assets/svg/Arrow.svg'))
+                    GestureDetector(
+                      onTap: () {
+                        Get.toNamed('/selecthour', arguments: selectDate);
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            'SIGUIENTE   ',
+                            style: MyTheme.basicTextStyle(
+                                color: MyTheme.ocreBase,
+                                size: 20,
+                                fontWeight: FontWeight.normal),
+                          ),
+                          Container(
+                              width: 10.w,
+                              child: SvgPicture.asset('assets/svg/Arrow.svg'))
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),

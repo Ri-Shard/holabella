@@ -10,6 +10,9 @@ class CustomText extends StatefulWidget {
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
   final bool? enable;
+  final int? maxlines;
+  final double? border;
+  final String? hint;
 
   const CustomText(
       {super.key,
@@ -21,7 +24,10 @@ class CustomText extends StatefulWidget {
       this.obscureText,
       this.onChanged,
       this.validator,
-      this.enable});
+      this.maxlines,
+      this.border,
+      this.enable,
+      this.hint});
 
   @override
   State<CustomText> createState() => CustomTextState();
@@ -32,21 +38,24 @@ class CustomTextState extends State<CustomText> {
   Widget build(BuildContext context) {
     return TextFormField(
       enabled: widget.enable,
+      maxLines: widget.maxlines ?? 1,
       validator: widget.validator,
       obscureText: widget.obscureText ?? false,
       keyboardType: widget.inputType,
       controller: widget.controller,
       onChanged: widget.onChanged,
       decoration: InputDecoration(
+          hintText: widget.hint,
           labelText: widget.labeltext,
-          suffixIcon: widget.suffix ??
-              const Icon(
-                Icons.ac_unit,
-                color: Colors.transparent,
-              ),
+          suffixIcon: widget.suffix ?? null,
+          // const Icon(
+          //   Icons.ac_unit,
+          //   color: Colors.transparent,
+          // ),
           prefixIcon: widget.prefix,
-          border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(100)))),
+          border: OutlineInputBorder(
+              borderRadius:
+                  BorderRadius.all(Radius.circular(widget.border ?? 100)))),
     );
   }
 }

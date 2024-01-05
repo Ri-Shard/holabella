@@ -24,15 +24,26 @@ class _CustomSelectState extends State<CustomSelect> {
   Widget build(BuildContext context) {
     return SearchField(
       searchInputDecoration: InputDecoration(
-          prefixIcon: widget.prefix ?? Icon(Icons.filter_list_rounded),
-          suffixIcon: widget.suffix ?? Icon(Icons.arrow_drop_down_rounded),
+          prefixIcon: widget.prefix ?? null,
+          suffixIcon:
+              widget.suffix ?? const Icon(Icons.arrow_drop_down_rounded),
           labelText: widget.title,
           hintStyle: const TextStyle(color: MyTheme.ocreBase),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(100))),
       marginColor: MyTheme.ocreBase,
       hint: 'Seleccione',
+      suggestionsDecoration: SuggestionDecoration(
+          padding: const EdgeInsets.all(4),
+          border: Border.all(color: MyTheme.ocreOscuro),
+          borderRadius:
+              const BorderRadius.vertical(bottom: Radius.circular(10))),
       suggestions: widget.items
-          .map((e) => SearchFieldListItem(e, child: Text(e)))
+          .map((e) => SearchFieldListItem(e,
+              child: Text(
+                e,
+                style: MyTheme.basicTextStyle(
+                    color: MyTheme.ocreOscuro, fontWeight: FontWeight.w500),
+              )))
           .toList(),
     );
   }
