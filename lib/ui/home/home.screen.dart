@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:holabella/ui/resources/custom_drawer.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
           fit: BoxFit.fill,
         ),
         Scaffold(
-          drawer: const Drawer(),
+          drawer: CustomDrawer(),
           appBar: AppBar(
             actions: const [
               SizedBox(

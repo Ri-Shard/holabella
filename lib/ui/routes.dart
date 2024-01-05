@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:holabella/ui/auth/login_base_screen.dart';
 import 'package:holabella/ui/auth/login_screen.dart';
 import 'package:holabella/ui/auth/register_screen.dart';
+import 'package:holabella/ui/drawer/hiring_screen.dart';
+import 'package:holabella/ui/drawer/history_screen.dart';
 import 'package:holabella/ui/home/home.screen.dart';
 import 'package:holabella/ui/service_screens/fill_data_screen.dart';
 import 'package:holabella/ui/service_screens/pay_screen.dart';
@@ -101,6 +103,20 @@ appRoutes() => [
       GetPage(
         name: '/servicesuccesspay',
         page: () => const SuccessPayScreen(),
+        middlewares: [MyMiddelware()],
+        transition: Transition.downToUp,
+        transitionDuration: const Duration(milliseconds: 200),
+      ),
+      GetPage(
+        name: '/drawerhiring',
+        page: () => const HiringScreen(),
+        middlewares: [MyMiddelware()],
+        transition: Transition.downToUp,
+        transitionDuration: const Duration(milliseconds: 200),
+      ),
+      GetPage(
+        name: '/drawerhistory',
+        page: () => const HistoryScreen(),
         middlewares: [MyMiddelware()],
         transition: Transition.downToUp,
         transitionDuration: const Duration(milliseconds: 200),

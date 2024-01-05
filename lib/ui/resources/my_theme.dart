@@ -7,6 +7,7 @@ class MyTheme {
   static const Color verdeMenta = Color(0xFF27D1A8);
   static const Color fucsia = Color(0xFFF90095);
   static const Color purpura = Color(0xFF6500E8);
+  static const Color dividerpink = Color(0xFFCAC4D0);
 
   static TextStyle basicTextStyle(
       {double? size, Color? color, FontWeight? fontWeight}) {

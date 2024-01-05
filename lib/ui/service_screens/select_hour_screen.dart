@@ -110,13 +110,13 @@ class _SelectHourScreenState extends State<SelectHourScreen> {
                         return SizedBox(
                           height: 40.h,
                           child: GridView.count(
-                            scrollDirection: Axis.horizontal,
+                            scrollDirection: Axis.vertical,
                             physics: NeverScrollableScrollPhysics(),
                             padding: EdgeInsets.all(8),
                             mainAxisSpacing: 8,
                             crossAxisSpacing: 8,
-                            childAspectRatio: 1 / 2,
-                            crossAxisCount: 7,
+                            childAspectRatio: 2 / 1,
+                            crossAxisCount: 4,
                             children: List.generate(hours.length, (index) {
                               return InkWell(
                                 onTap: () {
