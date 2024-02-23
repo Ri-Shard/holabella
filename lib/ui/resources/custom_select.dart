@@ -7,12 +7,15 @@ class CustomSelect extends StatefulWidget {
   final String? title;
   final Widget? prefix;
   final Widget? suffix;
-
+  final Color? marginColor;
+  final Color? coloricon;
   const CustomSelect(
       {super.key,
       required this.title,
       required this.items,
       this.prefix,
+      this.marginColor,
+      this.coloricon,
       this.suffix});
 
   @override
@@ -24,13 +27,13 @@ class _CustomSelectState extends State<CustomSelect> {
   Widget build(BuildContext context) {
     return SearchField(
       searchInputDecoration: InputDecoration(
-          prefixIcon: widget.prefix ?? null,
+          iconColor: widget.coloricon,
+          prefixIcon: widget.prefix,
           suffixIcon:
               widget.suffix ?? const Icon(Icons.arrow_drop_down_rounded),
           labelText: widget.title,
-          hintStyle: const TextStyle(color: MyTheme.ocreBase),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(100))),
-      marginColor: MyTheme.ocreBase,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(50))),
+      marginColor: widget.marginColor ?? MyTheme.ocreBase,
       hint: 'Seleccione',
       suggestionsDecoration: SuggestionDecoration(
           padding: const EdgeInsets.all(4),
@@ -45,6 +48,9 @@ class _CustomSelectState extends State<CustomSelect> {
                     color: MyTheme.ocreOscuro, fontWeight: FontWeight.w500),
               )))
           .toList(),
+      onSuggestionTap: (p0) {
+        print(p0.searchKey);
+      },
     );
   }
 }

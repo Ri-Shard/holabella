@@ -48,8 +48,13 @@ dependencies:
   flutter_localization: ^0.1.11
   intl: ^0.18.1
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
+
   flutter_test:
     sdk: flutter
+
+
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -85,6 +90,14 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon.png"
+  min_sdk_android: 21
+  adaptive_icon_background: "#00FF0000"
+
+
   fonts:
     - family: Jost
       fonts:
@@ -96,6 +109,10 @@ flutter:
           weight: 300
         - asset: assets/font/Jost-SemiBold.ttf
           weight: 600
+    - family: MoonDream
+      fonts:
+        - asset: assets/font/MoonDream.otf
+          weight: 400
 
   
   # For details regarding fonts from package dependencies,

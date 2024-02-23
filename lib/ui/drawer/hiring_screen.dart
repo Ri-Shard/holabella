@@ -25,11 +25,14 @@ class HiringScreen extends StatelessWidget {
                 Icons.arrow_back,
                 color: MyTheme.verdeMenta,
               )),
-          actions: const [
-            Icon(
-              Icons.shopping_basket_outlined,
-              color: Colors.white,
-            ),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.shopping_basket_outlined,
+                color: Colors.white,
+              ),
+            )
           ],
           title: Padding(
             padding: const EdgeInsets.all(60.0),

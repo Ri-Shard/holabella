@@ -8,7 +8,6 @@ import 'package:holabella/ui/resources/bottom_navigation_bar.dart';
 import 'package:holabella/ui/resources/custom_select.dart';
 import 'package:holabella/ui/resources/custom_text.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
-import 'package:holabella/ui/service_screens/service_controller.dart';
 import 'package:sizer/sizer.dart';
 
 class SuccessPayScreen extends StatefulWidget {
@@ -83,13 +82,16 @@ class _SuccessPayScreenState extends State<SuccessPayScreen> {
                             Icons.check,
                             color: Colors.white,
                           ),
-                          Text(
-                            'Pago \n Aceptado',
-                            textAlign: TextAlign.center,
-                            maxLines: 3,
-                            style: MyTheme.basicTextStyle(
-                                size: 35, fontWeight: FontWeight.w400),
-                          ),
+                          Text('Pago \n Aceptado',
+                              textAlign: TextAlign.center,
+                              maxLines: 3,
+                              style: TextStyle(
+                                  fontFamily: 'MoonDream',
+                                  fontSize: 25,
+                                  color: Colors.white)
+                              // MyTheme.basicTextStyle(
+                              //     size: 35, fontWeight: FontWeight.w400),
+                              ),
                         ],
                       ),
                     ),

@@ -19,4 +19,15 @@ class MyTheme {
       letterSpacing: 0.10,
     );
   }
+
+  static TextStyle moonTextStyle(
+      {double? size, Color? color, FontWeight? fontWeight}) {
+    return TextStyle(
+      color: color ?? Colors.white,
+      fontSize: size ?? 20,
+      fontFamily: 'MoonDream',
+      fontWeight: fontWeight ?? FontWeight.w600,
+      letterSpacing: 0.10,
+    );
+  }
 }

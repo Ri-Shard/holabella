@@ -64,14 +64,26 @@ class AuthController extends GetxController {
 
       response =
           (await authInstance.signInWithCredential(credential)).user?.email;
+
       if (response != null) {
-        Get.offAllNamed('/register');
+        User? verifyUser = await DataBaseRepository().verifyUser(response);
+        if (verifyUser != null) {
+          print(verifyUser);
+          Get.offAllNamed('/home');
+        } else {
+          Get.offAllNamed('/register');
+        }
       }
     } catch (e) {
       response = e.toString();
       Get.back();
     }
     return response;
+  }
+
+  Future<void> signOut() async {
+    await authInstance.signOut();
+    Get.offAllNamed('/loginbase');
   }
 
   verifyUser() async {

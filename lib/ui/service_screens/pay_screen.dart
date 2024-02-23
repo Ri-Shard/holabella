@@ -6,7 +6,7 @@ import 'package:holabella/ui/resources/bottom_navigation_bar.dart';
 import 'package:holabella/ui/resources/custom_select.dart';
 import 'package:holabella/ui/resources/custom_text.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
-import 'package:holabella/ui/service_screens/service_controller.dart';
+import 'package:holabella/ui/service_screens/controller/service_controller.dart';
 import 'package:sizer/sizer.dart';
 
 class PayScreen extends StatefulWidget {

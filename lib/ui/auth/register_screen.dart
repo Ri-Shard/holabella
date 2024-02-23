@@ -32,9 +32,9 @@ class RegisterScreen extends StatelessWidget {
             'assets/images/Blur.png',
             fit: BoxFit.fill,
           ),
-          SingleChildScrollView(
-            child: Form(
-              key: _key,
+          Form(
+            key: _key,
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -171,6 +171,9 @@ class RegisterScreen extends StatelessWidget {
                                       }
                                       if (p0.length < 6) {
                                         return 'La contraseña debe tener mas de 6 caracteres';
+                                      }
+                                      if (p0 != password.text) {
+                                        return 'La contraseñas no coinciden';
                                       }
                                     },
                                     onChanged: (text) {

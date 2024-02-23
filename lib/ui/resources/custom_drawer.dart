@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:holabella/repositories/database_service_repository.dart';
+import 'package:holabella/ui/auth/auth_controller.dart';
 import 'package:holabella/ui/resources/bottom_navigation_bar.dart';
 import 'package:holabella/ui/resources/buttons.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
@@ -11,6 +13,8 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authController = Get.find<AuthController>();
+
     return SizedBox(
       width: double.infinity,
       child: Scaffold(
@@ -25,11 +29,14 @@ class CustomDrawer extends StatelessWidget {
                 Icons.arrow_back,
                 color: MyTheme.verdeMenta,
               )),
-          actions: const [
-            Icon(
-              Icons.shopping_basket_outlined,
-              color: Colors.white,
-            ),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.shopping_basket_outlined,
+                color: Colors.white,
+              ),
+            )
           ],
           title: Padding(
             padding: const EdgeInsets.all(60.0),
@@ -151,7 +158,9 @@ class CustomDrawer extends StatelessWidget {
                       )
                     ],
                   ),
-                  ontap: () {},
+                  ontap: () {
+                    Get.toNamed('/drawermyaddress');
+                  },
                   borderColor: Colors.transparent,
                   // focuscolor: MyTheme.verdeMenta,
                   splashColor: MyTheme.verdeMenta,
@@ -177,7 +186,9 @@ class CustomDrawer extends StatelessWidget {
                       )
                     ],
                   ),
-                  ontap: () {},
+                  ontap: () {
+                    Get.toNamed('/drawerpaidmethods');
+                  },
                   borderColor: Colors.transparent,
                   // focuscolor: MyTheme.verdeMenta,
                   splashColor: MyTheme.verdeMenta,
@@ -235,7 +246,9 @@ class CustomDrawer extends StatelessWidget {
                       )
                     ],
                   ),
-                  ontap: () {},
+                  ontap: () {
+                    authController.signOut();
+                  },
                   borderColor: Colors.transparent,
                   // focuscolor: MyTheme.verdeMenta,
                   splashColor: MyTheme.verdeMenta,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
+import 'package:holabella/ui/service_screens/controller/service_controller.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   const CustomBottomNavigationBar({super.key});
@@ -12,9 +13,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
-            Icons.search_rounded,
-            color: MyTheme.fucsia,
+          InkWell(
+            onTap: () {},
+            child: const Icon(
+              Icons.search_rounded,
+              color: MyTheme.fucsia,
+            ),
           ),
           const SizedBox(
             width: 50,

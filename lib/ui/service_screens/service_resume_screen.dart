@@ -103,6 +103,13 @@ class _ServiceResumeScreenState extends State<ServiceResumeScreen> {
                                   person: services[index].person,
                                   date: services[index].date,
                                   price: services[index].price,
+                                  iconbutton: IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(
+                                      Icons.delete_outline,
+                                      color: MyTheme.ocreBajo,
+                                    ),
+                                  ),
                                 ),
                                 Divider(
                                   thickness: 0.5,

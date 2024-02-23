@@ -6,9 +6,11 @@ import 'package:holabella/ui/auth/auth_controller.dart';
 import 'package:holabella/ui/auth/login_base_screen.dart';
 import 'package:holabella/ui/auth/login_screen.dart';
 import 'package:holabella/ui/auth/register_screen.dart';
+import 'package:holabella/ui/drawer/controller/address_controller.dart';
+import 'package:holabella/ui/drawer/controller/paid_controller.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
 import 'package:holabella/ui/routes.dart';
-import 'package:holabella/ui/service_screens/service_controller.dart';
+import 'package:holabella/ui/service_screens/controller/service_controller.dart';
 import 'package:holabella/ui/splash/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
@@ -31,6 +33,8 @@ class MyApp extends StatelessWidget {
 
     Get.put(AuthController());
     Get.put(ServiceController());
+    Get.put(AddressController());
+    Get.put(PaidController());
 
     return Sizer(builder: (context, orientation, deviceType) {
       return GetMaterialApp(

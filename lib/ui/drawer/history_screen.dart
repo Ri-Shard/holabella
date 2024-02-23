@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:holabella/models/service_model.dart';
 import 'package:holabella/ui/resources/bottom_navigation_bar.dart';
 import 'package:holabella/ui/resources/buttons.dart';
+import 'package:holabella/ui/resources/custom_listtile.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
 import 'package:sizer/sizer.dart';
 
@@ -11,6 +13,23 @@ class HistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<ServiceModel> services = [
+      ServiceModel(
+          name: 'Reconstrucción de uña',
+          person: 'María Colorida',
+          date: 'Lun 17, Ago 2023 - 9:00 am.',
+          price: '\$8.000'),
+      ServiceModel(
+          name: 'Acrygel básico',
+          person: 'María Colorida',
+          date: 'Lun 17, Ago 2023 - 9:00 am.',
+          price: '\$120.000'),
+      ServiceModel(
+          name: 'Maquillaje',
+          person: 'María Colorida',
+          date: 'Lun 17, Ago 2023 - 9:00 am.',
+          price: '\$135.000'),
+    ];
     return SizedBox(
       width: double.infinity,
       child: Scaffold(
@@ -25,11 +44,14 @@ class HistoryScreen extends StatelessWidget {
                 Icons.arrow_back,
                 color: MyTheme.verdeMenta,
               )),
-          actions: const [
-            Icon(
-              Icons.shopping_basket_outlined,
-              color: Colors.white,
-            ),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.shopping_basket_outlined,
+                color: Colors.white,
+              ),
+            )
           ],
           title: Padding(
             padding: const EdgeInsets.all(60.0),
@@ -54,46 +76,27 @@ class HistoryScreen extends StatelessWidget {
               SizedBox(
                 height: 2.h,
               ),
-              const ListTile(
-                leading: Icon(
-                  Icons.circle,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  'Camila Gonzáles',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              const ListTile(
-                leading: Icon(
-                  Icons.circle,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  'Juliana Ramírez',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              const ListTile(
-                leading: Icon(
-                  Icons.circle,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  'Sara López',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              const ListTile(
-                leading: Icon(
-                  Icons.circle,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  'Carolina Jiménez',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
+              ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: services.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(
+                      children: [
+                        CustomListTile(
+                          name: services[index].name,
+                          person: services[index].person,
+                          date: services[index].date,
+                          price: services[index].price,
+                          color: Colors.white,
+                        ),
+                        Divider(
+                          thickness: 0.5,
+                          color: MyTheme.dividerpink,
+                        )
+                      ],
+                    );
+                  }),
             ],
           ),
         ),

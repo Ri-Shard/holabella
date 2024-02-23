@@ -2,8 +2,14 @@ import 'package:get/get.dart';
 import 'package:holabella/ui/auth/login_base_screen.dart';
 import 'package:holabella/ui/auth/login_screen.dart';
 import 'package:holabella/ui/auth/register_screen.dart';
+import 'package:holabella/ui/drawer/add_address_screen.dart';
+import 'package:holabella/ui/drawer/add_paid_methods_screen.dart';
+import 'package:holabella/ui/drawer/edit_address_screen.dart';
+import 'package:holabella/ui/drawer/edit_paid_methods.dart';
 import 'package:holabella/ui/drawer/hiring_screen.dart';
 import 'package:holabella/ui/drawer/history_screen.dart';
+import 'package:holabella/ui/drawer/myaddress_screen.dart';
+import 'package:holabella/ui/drawer/paid_methods_screen.dart';
 import 'package:holabella/ui/home/home.screen.dart';
 import 'package:holabella/ui/service_screens/fill_data_screen.dart';
 import 'package:holabella/ui/service_screens/pay_screen.dart';
@@ -117,6 +123,48 @@ appRoutes() => [
       GetPage(
         name: '/drawerhistory',
         page: () => const HistoryScreen(),
+        middlewares: [MyMiddelware()],
+        transition: Transition.downToUp,
+        transitionDuration: const Duration(milliseconds: 200),
+      ),
+      GetPage(
+        name: '/drawermyaddress',
+        page: () => const MyAddressScreen(),
+        middlewares: [MyMiddelware()],
+        transition: Transition.downToUp,
+        transitionDuration: const Duration(milliseconds: 200),
+      ),
+      GetPage(
+        name: '/draweraddaddress',
+        page: () => const AddAddressScreen(),
+        middlewares: [MyMiddelware()],
+        transition: Transition.downToUp,
+        transitionDuration: const Duration(milliseconds: 200),
+      ),
+      GetPage(
+        name: '/drawereditaddress',
+        page: () => const EditAddressScreen(),
+        middlewares: [MyMiddelware()],
+        transition: Transition.downToUp,
+        transitionDuration: const Duration(milliseconds: 200),
+      ),
+      GetPage(
+        name: '/drawerpaidmethods',
+        page: () => const PaidMethodsScreen(),
+        middlewares: [MyMiddelware()],
+        transition: Transition.downToUp,
+        transitionDuration: const Duration(milliseconds: 200),
+      ),
+      GetPage(
+        name: '/draweraddpaidmethods',
+        page: () => const AddPaidMethodsScreen(),
+        middlewares: [MyMiddelware()],
+        transition: Transition.downToUp,
+        transitionDuration: const Duration(milliseconds: 200),
+      ),
+      GetPage(
+        name: '/drawereditpaidmethods',
+        page: () => const EditPaidMethodsScreen(),
         middlewares: [MyMiddelware()],
         transition: Transition.downToUp,
         transitionDuration: const Duration(milliseconds: 200),
