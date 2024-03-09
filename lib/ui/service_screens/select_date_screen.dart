@@ -5,9 +5,11 @@ import 'package:get/get.dart';
 import 'package:holabella/ui/resources/bottom_navigation_bar.dart';
 import 'package:holabella/ui/resources/custom_select.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
+import 'package:holabella/ui/service_screens/controller/service_controller.dart';
 import 'package:sizer/sizer.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter/cupertino.dart';
 
 class SelectDateScreen extends StatefulWidget {
   const SelectDateScreen({super.key});
@@ -21,8 +23,12 @@ DateTime date = DateTime.now();
 String selectDate = DateFormat('EEE, MMM dd', 'es').format(date);
 
 class _SelectDateScreenState extends State<SelectDateScreen> {
+  DateTime _selectedTime = DateTime.now();
   @override
   Widget build(BuildContext context) {
+    final serviceController = Get.find<ServiceController>();
+
+    print(serviceController.newService);
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -97,9 +103,13 @@ class _SelectDateScreenState extends State<SelectDateScreen> {
                         color: MyTheme.purpura,
                       ),
                       CalendarDatePicker2(
-                        config: CalendarDatePicker2Config(),
+                        config: CalendarDatePicker2Config(
+                            firstDate: DateTime.now()),
                         value: _dates,
-                        onValueChanged: (dates) => _dates = dates,
+                        onValueChanged: (dates) {
+                          _dates = dates;
+                          _showDatePicker();
+                        },
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -148,7 +158,7 @@ class _SelectDateScreenState extends State<SelectDateScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Get.toNamed('/selecthour', arguments: selectDate);
+                        Get.toNamed('/serviceresume', arguments: selectDate);
                       },
                       child: Row(
                         children: [
@@ -172,6 +182,42 @@ class _SelectDateScreenState extends State<SelectDateScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  void _showDatePicker() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext builder) {
+        // Create the modal bottom sheet widget containing the time picker and close button
+        return SizedBox(
+          height: MediaQuery.of(context).copyWith().size.height / 3,
+          child: Column(
+            children: [
+              // Time picker
+              Expanded(
+                child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.time,
+                  initialDateTime: DateTime.now(),
+                  onDateTimeChanged: (newTime) {
+                    setState(() {
+                      _selectedTime = newTime;
+                    });
+                  },
+                ),
+              ),
+
+              // Close button
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Close'),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

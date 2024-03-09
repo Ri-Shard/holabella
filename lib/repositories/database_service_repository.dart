@@ -20,24 +20,19 @@ class DataBaseServiceRepository {
 
   Future<List<ServiceModel?>> getBaseServices() async {
     try {
-      return await firestore
-          .collection("services")
-          .doc('BaseServices')
-          .get()
-          .then((data) {
+      return await firestore.collection("services").get().then((data) {
         List<ServiceModel?> services = [];
-        data.data()!.forEach((key, value) {
-          value.forEach((e) {
+        data.docs.forEach((element) {
+          element.data().forEach((key, value) {
             ServiceModel service = ServiceModel();
-            service.name = e['name'];
-            service.category = key;
-            service.price = e['price'];
+            service.name = value['name'];
+            service.category = element.id;
+            service.price = value['price'].toString();
             List<String> ambassador = [];
-            e['ambassador'].forEach((am) {
+            value['ambassador'].forEach((am) {
               ambassador.add(am);
             });
             service.ambassador = ambassador;
-
             services.add(service);
           });
         });

@@ -21,8 +21,9 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
   Map<String, List<ServiceModel>> sortedServices = {};
   @override
   Widget build(BuildContext context) {
-    String? selectedCategory = "Uñas";
+    String? selectedCategory = 'Uñas';
     int? selectedService = 0;
+    String? selectedPrice;
     String? selectedPeople = '';
     final focus = FocusNode();
     final focus2 = FocusNode();
@@ -33,6 +34,7 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
     final _formKey = GlobalKey<FormState>();
 
     final serviceController = Get.find<ServiceController>();
+    sortedServices = {};
     for (ServiceModel? e in serviceController.servicesData) {
       if (!sortedServices.containsKey(e!.category)) {
         sortedServices[e.category!] = [e];
@@ -40,6 +42,7 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
         sortedServices[e.category]!.add(e);
       }
     }
+
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -175,6 +178,7 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
                                     selectedCategory = p0.searchKey;
                                     _personController.clear();
                                     _serviceController.clear();
+                                    selectedService = 0;
                                     focus.unfocus();
                                     _.update(['selectService']);
                                   },
@@ -229,6 +233,9 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
                                               .name ==
                                           p0.searchKey) {
                                         selectedService = i;
+                                        selectedPrice =
+                                            sortedServices[selectedCategory]![i]
+                                                .price;
                                       }
                                     }
                                     focus2.unfocus();
@@ -295,6 +302,13 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
                   child: InkWell(
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
+                        ServiceModel serviceaux = ServiceModel();
+                        serviceaux.name = _serviceController.text;
+                        serviceaux.person = _personController.text;
+                        serviceaux.category = _categoryController.text;
+                        serviceaux.price = selectedPrice;
+
+                        serviceController.newService = serviceaux;
                         Get.toNamed('/selectdate');
                       }
                     },
