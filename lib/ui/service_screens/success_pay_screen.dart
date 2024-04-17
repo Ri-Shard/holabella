@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:holabella/ui/auth/auth_controller.dart';
 import 'package:holabella/ui/resources/bottom_navigation_bar.dart';
+import 'package:holabella/ui/resources/custom_drawer.dart';
 import 'package:holabella/ui/resources/custom_select.dart';
 import 'package:holabella/ui/resources/custom_text.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
@@ -28,7 +29,7 @@ class _SuccessPayScreenState extends State<SuccessPayScreen> {
           fit: BoxFit.fill,
         ),
         Scaffold(
-            drawer: const Drawer(),
+            drawer: CustomDrawer(),
             appBar: AppBar(
               actions: const [
                 SizedBox(

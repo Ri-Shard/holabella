@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:holabella/ui/auth/auth_controller.dart';
 import 'package:holabella/ui/resources/bottom_navigation_bar.dart';
+import 'package:holabella/ui/resources/custom_drawer.dart';
 import 'package:holabella/ui/resources/custom_select.dart';
 import 'package:holabella/ui/resources/custom_text.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
@@ -21,7 +22,9 @@ class _PayScreenState extends State<PayScreen> {
   final TextEditingController cardnumber = TextEditingController();
   final TextEditingController date = TextEditingController();
   final TextEditingController notes = TextEditingController();
-  @override
+  final GlobalKey<FormState> _key = GlobalKey();
+  final serviceController = Get.find<ServiceController>();
+
   Widget build(BuildContext context) {
     return Stack(
       fit: StackFit.expand,
@@ -31,7 +34,7 @@ class _PayScreenState extends State<PayScreen> {
           fit: BoxFit.fill,
         ),
         Scaffold(
-            drawer: const Drawer(),
+            drawer: CustomDrawer(),
             appBar: AppBar(
               actions: const [
                 SizedBox(
@@ -99,146 +102,149 @@ class _PayScreenState extends State<PayScreen> {
                       SizedBox(
                         height: 5.h,
                       ),
-                      GetBuilder(
-                          id: 'payview',
-                          init: Get.find<ServiceController>(),
-                          builder: (_) {
-                            return Column(
-                              children: [
-                                const CustomSelect(
-                                  items: ['Tarjeta de credito', 'PSE'],
-                                  title: 'Metodo de pago *',
-                                  prefix: Icon(Icons.filter_list_rounded),
-                                ),
-                                SizedBox(height: 3.h),
-                                CustomText(
-                                  validator: (p0) {
-                                    if (p0!.isEmpty) {
-                                      return 'Campo vacio, ingrese el numero de la tarjeta';
-                                    }
-                                  },
-                                  onChanged: (text) {
-                                    _.update(['payview']);
-                                  },
-                                  controller: cardnumber,
-                                  labeltext: 'Número de la tarjeta * ',
-                                  inputType: TextInputType.number,
-                                  suffix: InkWell(
-                                    child: const Icon(Icons.cancel_outlined),
-                                    onTap: () {
-                                      cardnumber.clear();
+                      Form(
+                        key: _key,
+                        child: GetBuilder(
+                            id: 'payview',
+                            init: Get.find<ServiceController>(),
+                            builder: (_) {
+                              return Column(
+                                children: [
+                                  const CustomSelect(
+                                    items: ['Tarjeta de credito', 'PSE'],
+                                    title: 'Metodo de pago *',
+                                    prefix: Icon(Icons.filter_list_rounded),
+                                  ),
+                                  SizedBox(height: 3.h),
+                                  CustomText(
+                                    validator: (p0) {
+                                      if (p0!.isEmpty) {
+                                        return 'Campo vacio, ingrese el numero de la tarjeta';
+                                      }
+                                    },
+                                    onChanged: (text) {
                                       _.update(['payview']);
                                     },
+                                    controller: cardnumber,
+                                    labeltext: 'Número de la tarjeta * ',
+                                    inputType: TextInputType.number,
+                                    suffix: InkWell(
+                                      child: const Icon(Icons.cancel_outlined),
+                                      onTap: () {
+                                        cardnumber.clear();
+                                        _.update(['payview']);
+                                      },
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 3.h),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 5,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: CustomText(
-                                          validator: (p0) {
-                                            if (p0!.isEmpty) {
-                                              return 'Campo vacio, ingrese fecha de vencimiento';
-                                            }
-                                          },
-                                          onChanged: (text) {
-                                            _.update(['payview']);
-                                          },
-                                          controller: date,
-                                          inputType: TextInputType.number,
-                                          labeltext: 'Vence el *',
-                                          hint: 'mm / yyyy',
+                                  SizedBox(height: 3.h),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 5,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          child: CustomText(
+                                            validator: (p0) {
+                                              if (p0!.isEmpty) {
+                                                return 'Campo vacio, ingrese fecha de vencimiento';
+                                              }
+                                            },
+                                            onChanged: (text) {
+                                              _.update(['payview']);
+                                            },
+                                            controller: date,
+                                            inputType: TextInputType.number,
+                                            labeltext: 'Vence el *',
+                                            hint: 'mm / yyyy',
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      flex: 4,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: CustomText(
-                                          validator: (p0) {
-                                            if (p0!.isEmpty) {
-                                              return 'Campo vacio, ingrese el código de verificación';
-                                            }
-                                          },
-                                          onChanged: (text) {
-                                            _.update(['payview']);
-                                          },
-                                          controller: date,
-                                          inputType: TextInputType.number,
-                                          labeltext: 'CCV *',
+                                      Expanded(
+                                        flex: 4,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          child: CustomText(
+                                            validator: (p0) {
+                                              if (p0!.isEmpty) {
+                                                return 'Campo vacio, ingrese el código de verificación';
+                                              }
+                                            },
+                                            onChanged: (text) {
+                                              _.update(['payview']);
+                                            },
+                                            controller: date,
+                                            inputType: TextInputType.number,
+                                            labeltext: 'CCV *',
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      flex: 4,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: const CustomSelect(
-                                          items: ['1', '2', '3', '12'],
-                                          title: 'Cuotas *',
+                                      Expanded(
+                                        flex: 4,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          child: const CustomSelect(
+                                            items: ['1', '2', '3', '12'],
+                                            title: 'Cuotas *',
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 3.h),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 4,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: const CustomSelect(
-                                          prefix:
-                                              Icon(Icons.filter_list_rounded),
-                                          items: ['CC', 'CE'],
-                                          title: 'Tipo documento *',
+                                    ],
+                                  ),
+                                  SizedBox(height: 3.h),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 4,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          child: const CustomSelect(
+                                            prefix:
+                                                Icon(Icons.filter_list_rounded),
+                                            items: ['CC', 'CE'],
+                                            title: 'Tipo documento *',
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      flex: 5,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: CustomText(
-                                          validator: (p0) {
-                                            if (p0!.isEmpty) {
-                                              return 'Campo vacio, ingrese fecha de vencimiento';
-                                            }
-                                          },
-                                          onChanged: (text) {
-                                            _.update(['payview']);
-                                          },
-                                          controller: date,
-                                          inputType: TextInputType.number,
-                                          labeltext: 'No. de documento *',
+                                      Expanded(
+                                        flex: 5,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          child: CustomText(
+                                            validator: (p0) {
+                                              if (p0!.isEmpty) {
+                                                return 'Campo vacio, ingrese fecha de vencimiento';
+                                              }
+                                            },
+                                            onChanged: (text) {
+                                              _.update(['payview']);
+                                            },
+                                            controller: date,
+                                            inputType: TextInputType.number,
+                                            labeltext: 'No. de documento *',
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 3.h),
-                                CustomText(
-                                  onChanged: (text) {
-                                    _.update(['payview']);
-                                  },
-                                  controller: cardnumber,
-                                  labeltext: 'Número de cupón ',
-                                  inputType: TextInputType.number,
-                                  prefix: Icon(Icons.local_activity_outlined),
-                                ),
-                              ],
-                            );
-                          })
+                                    ],
+                                  ),
+                                  SizedBox(height: 3.h),
+                                  CustomText(
+                                    onChanged: (text) {
+                                      _.update(['payview']);
+                                    },
+                                    controller: cardnumber,
+                                    labeltext: 'Número de cupón ',
+                                    inputType: TextInputType.number,
+                                    prefix: Icon(Icons.local_activity_outlined),
+                                  ),
+                                ],
+                              );
+                            }),
+                      )
                     ],
                   ),
                 ),
@@ -271,7 +277,9 @@ class _PayScreenState extends State<PayScreen> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
+                          await serviceController
+                              .saveService(serviceController.newServicesData);
                           Get.toNamed('/serviceprocesingpay');
                         },
                         child: Row(

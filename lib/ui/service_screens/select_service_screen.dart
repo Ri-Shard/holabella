@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:holabella/models/base_service_model.dart';
 import 'package:holabella/models/service_model.dart';
 import 'package:holabella/ui/resources/bottom_navigation_bar.dart';
+import 'package:holabella/ui/resources/custom_drawer.dart';
 import 'package:holabella/ui/resources/custom_select.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
 import 'package:holabella/ui/service_screens/controller/service_controller.dart';
@@ -18,7 +20,7 @@ class SelectServiceScreen extends StatefulWidget {
 }
 
 class _SelectServiceScreenState extends State<SelectServiceScreen> {
-  Map<String, List<ServiceModel>> sortedServices = {};
+  Map<String, List<BaseServiceModel>> sortedServices = {};
   @override
   Widget build(BuildContext context) {
     String? selectedCategory = 'Uñas';
@@ -35,7 +37,7 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
 
     final serviceController = Get.find<ServiceController>();
     sortedServices = {};
-    for (ServiceModel? e in serviceController.servicesData) {
+    for (BaseServiceModel? e in serviceController.servicesData) {
       if (!sortedServices.containsKey(e!.category)) {
         sortedServices[e.category!] = [e];
       } else {
@@ -51,7 +53,7 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
           fit: BoxFit.fill,
         ),
         Scaffold(
-            drawer: const Drawer(),
+            drawer: CustomDrawer(),
             appBar: AppBar(
               actions: const [
                 SizedBox(

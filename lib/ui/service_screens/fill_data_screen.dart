@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:holabella/models/user_model.dart';
 import 'package:holabella/ui/auth/auth_controller.dart';
 import 'package:holabella/ui/resources/bottom_navigation_bar.dart';
+import 'package:holabella/ui/resources/custom_drawer.dart';
 import 'package:holabella/ui/resources/custom_select.dart';
 import 'package:holabella/ui/resources/custom_text.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
@@ -21,8 +23,13 @@ class _FillDataScreenState extends State<FillDataScreen> {
   final TextEditingController phone = TextEditingController();
   final TextEditingController email = TextEditingController();
   final TextEditingController notes = TextEditingController();
+  final GlobalKey<FormState> _key = GlobalKey();
+  final authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
+    email.text = authController.authInstance.currentUser!.email!;
+    final serviceController = Get.find<ServiceController>();
+
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -31,7 +38,7 @@ class _FillDataScreenState extends State<FillDataScreen> {
           fit: BoxFit.fill,
         ),
         Scaffold(
-            drawer: const Drawer(),
+            drawer: CustomDrawer(),
             appBar: AppBar(
               actions: const [
                 SizedBox(
@@ -81,96 +88,99 @@ class _FillDataScreenState extends State<FillDataScreen> {
                       SizedBox(
                         height: 5.h,
                       ),
-                      GetBuilder(
-                          id: 'dataview',
-                          init: Get.find<ServiceController>(),
-                          builder: (_) {
-                            return Column(
-                              children: [
-                                CustomText(
-                                  validator: (p0) {
-                                    if (p0!.isEmpty) {
-                                      return 'Campo vacio, ingrese el nombre';
-                                    }
-                                  },
-                                  onChanged: (text) {
-                                    _.update(['dataview']);
-                                  },
-                                  controller: name,
-                                  labeltext: 'Nombres',
-                                  prefix: const Icon(Icons.person_outline),
-                                  suffix: InkWell(
-                                    child: Icon(Icons.cancel_outlined),
-                                    onTap: () {
-                                      name.clear();
+                      Form(
+                        key: _key,
+                        child: GetBuilder(
+                            id: 'dataview',
+                            init: Get.find<ServiceController>(),
+                            builder: (_) {
+                              return Column(
+                                children: [
+                                  CustomText(
+                                    validator: (p0) {
+                                      if (p0!.isEmpty) {
+                                        return 'Campo vacio, ingrese el nombre';
+                                      }
+                                    },
+                                    onChanged: (text) {
                                       _.update(['dataview']);
                                     },
+                                    controller: name,
+                                    labeltext: 'Nombres',
+                                    prefix: const Icon(Icons.person_outline),
+                                    suffix: InkWell(
+                                      child: Icon(Icons.cancel_outlined),
+                                      onTap: () {
+                                        name.clear();
+                                        _.update(['dataview']);
+                                      },
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 3.h),
-                                CustomText(
-                                  validator: (p0) {
-                                    if (p0!.isEmpty) {
-                                      return 'Campo vacio, ingrese el telefono';
-                                    }
-                                  },
-                                  onChanged: (text) {
-                                    _.update(['dataview']);
-                                  },
-                                  controller: phone,
-                                  labeltext: 'Telefono',
-                                  inputType: TextInputType.phone,
-                                  prefix: const Icon(Icons.phone_android),
-                                  suffix: InkWell(
-                                    child: const Icon(Icons.cancel_outlined),
-                                    onTap: () {
-                                      phone.clear();
+                                  SizedBox(height: 3.h),
+                                  CustomText(
+                                    validator: (p0) {
+                                      if (p0!.isEmpty) {
+                                        return 'Campo vacio, ingrese el telefono';
+                                      }
+                                    },
+                                    onChanged: (text) {
                                       _.update(['dataview']);
                                     },
+                                    controller: phone,
+                                    labeltext: 'Telefono',
+                                    inputType: TextInputType.phone,
+                                    prefix: const Icon(Icons.phone_android),
+                                    suffix: InkWell(
+                                      child: const Icon(Icons.cancel_outlined),
+                                      onTap: () {
+                                        phone.clear();
+                                        _.update(['dataview']);
+                                      },
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 3.h),
-                                CustomText(
-                                  validator: (p0) {
-                                    if (p0!.isEmpty) {
-                                      return 'Campo vacio, ingrese el correo';
-                                    }
-                                  },
-                                  onChanged: (text) {
-                                    _.update(['dataview']);
-                                  },
-                                  controller: email,
-                                  inputType: TextInputType.emailAddress,
-                                  labeltext: 'Correo',
-                                  prefix: const Icon(Icons.mail_outline),
-                                  suffix: InkWell(
-                                    child: const Icon(Icons.cancel_outlined),
-                                    onTap: () {
-                                      email.clear();
+                                  SizedBox(height: 3.h),
+                                  CustomText(
+                                    validator: (p0) {
+                                      if (p0!.isEmpty) {
+                                        return 'Campo vacio, ingrese el correo';
+                                      }
+                                    },
+                                    onChanged: (text) {
                                       _.update(['dataview']);
                                     },
+                                    controller: email,
+                                    inputType: TextInputType.emailAddress,
+                                    labeltext: 'Correo',
+                                    prefix: const Icon(Icons.mail_outline),
+                                    suffix: InkWell(
+                                      child: const Icon(Icons.cancel_outlined),
+                                      onTap: () {
+                                        email.clear();
+                                        _.update(['dataview']);
+                                      },
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 3.h),
-                                CustomText(
-                                  onChanged: (text) {
-                                    _.update(['dataview']);
-                                  },
-                                  controller: notes,
-                                  labeltext: 'Notas',
-                                  maxlines: 4,
-                                  border: 20,
-                                  suffix: InkWell(
-                                    child: const Icon(Icons.cancel_outlined),
-                                    onTap: () {
-                                      notes.clear();
+                                  SizedBox(height: 3.h),
+                                  CustomText(
+                                    onChanged: (text) {
                                       _.update(['dataview']);
                                     },
+                                    controller: notes,
+                                    labeltext: 'Notas',
+                                    maxlines: 4,
+                                    border: 20,
+                                    suffix: InkWell(
+                                      child: const Icon(Icons.cancel_outlined),
+                                      onTap: () {
+                                        notes.clear();
+                                        _.update(['dataview']);
+                                      },
+                                    ),
                                   ),
-                                ),
-                              ],
-                            );
-                          })
+                                ],
+                              );
+                            }),
+                      )
                     ],
                   ),
                 ),
@@ -204,7 +214,14 @@ class _FillDataScreenState extends State<FillDataScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Get.toNamed('/servicepay');
+                          if (_key.currentState!.validate()) {
+                            User user = User();
+                            user.email = email.text;
+                            user.name = name.text;
+                            user.phone = phone.text;
+                            serviceController.serviceUser = user;
+                            Get.toNamed('/servicepay');
+                          }
                         },
                         child: Row(
                           children: [
