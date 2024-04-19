@@ -9,12 +9,19 @@ class DataBaseServiceRepository {
   Future<dynamic> saveService(User user, List<ServiceModel?> service) async {
     try {
       for (var serv in service) {
-        serv!.id = DateTime.now().toString();
+        serv!.id = user.email!.split('@').first +
+            serv.ambassador!
+                .split('@')
+                .first; //TODO correo split @ +correo split @ + hora servicio
         serv.user = user.email;
+        await Future.delayed(const Duration(milliseconds: 500));
         await firestore
             .collection('ambassadorhistory')
-            .doc(serv.person)
-            .set({serv.id!: serv.toJson()}).then((data) {});
+            .doc(serv.ambassador)
+            .set({serv.id!: serv.toJson()}, SetOptions(merge: true)).then(
+                (data) {});
+        await firestore.collection('usershistory').doc(serv.user).set(
+            {serv.id!: serv.toJson()}, SetOptions(merge: true)).then((data) {});
       }
     } catch (e) {
       return '-1';
@@ -31,7 +38,7 @@ class DataBaseServiceRepository {
             service.name = value['name'];
             service.category = element.id;
             service.price = value['price'].toString();
-            List<String> ambassador = [];
+            List<Map> ambassador = [];
             value['ambassador'].forEach((am) {
               ambassador.add(am);
             });

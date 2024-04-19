@@ -7,7 +7,7 @@ class ServiceModel {
   String? category;
   String? id;
   String? user;
-  List<String>? ambassador;
+  String? ambassador;
 
   ServiceModel(
       {this.name,

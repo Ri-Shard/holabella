@@ -23,10 +23,11 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
   Map<String, List<BaseServiceModel>> sortedServices = {};
   @override
   Widget build(BuildContext context) {
-    String? selectedCategory = 'Uñas';
+    String? selectedCategory = 'Cejas y Pestañas';
     int? selectedService = 0;
     String? selectedPrice;
     String? selectedPeople = '';
+    String? selectedAmbassador = '';
     final focus = FocusNode();
     final focus2 = FocusNode();
     final focus3 = FocusNode();
@@ -268,14 +269,17 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
                                           selectedCategory]![selectedService!]
                                       .ambassador!
                                       .toList()
-                                      .map((e) => SearchFieldListItem<String>(e,
-                                          child: Text(
-                                            e,
-                                            style: MyTheme.basicTextStyle(
-                                                color: MyTheme.ocreOscuro,
-                                                fontWeight: FontWeight.w500),
-                                          )))
-                                      .toList(),
+                                      .map((e) {
+                                    return SearchFieldListItem<String>(
+                                        e['name'],
+                                        child: Text(
+                                          e['name'],
+                                          style: MyTheme.basicTextStyle(
+                                              color: MyTheme.ocreOscuro,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        item: e['email']);
+                                  }).toList(),
                                   focusNode: focus3,
                                   controller: _personController,
                                   validator: (x) {
@@ -287,6 +291,7 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
                                   onSuggestionTap:
                                       (SearchFieldListItem<String> p0) {
                                     selectedPeople = p0.searchKey;
+                                    selectedAmbassador = p0.item;
                                     focus3.unfocus();
                                     _.update(['selectService']);
                                   },
@@ -309,6 +314,7 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
                         serviceaux.person = _personController.text;
                         serviceaux.category = _categoryController.text;
                         serviceaux.price = selectedPrice;
+                        serviceaux.ambassador = selectedAmbassador;
 
                         serviceController.newService = serviceaux;
                         Get.toNamed('/selectdate');

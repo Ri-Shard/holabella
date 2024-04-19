@@ -16,7 +16,7 @@ class ServiceController extends GetxController {
   @override
   void onInit() async {
     servicesData = await database.getBaseServices();
-    //updata();
+
     print(servicesData);
     super.onInit();
   }
