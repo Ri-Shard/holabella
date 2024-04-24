@@ -15,15 +15,19 @@ class ServiceController extends GetxController {
   User? serviceUser;
   @override
   void onInit() async {
-    servicesData = await database.getBaseServices();
-
-    print(servicesData);
+    fillBaseServices();
     super.onInit();
   }
 
   saveService(List<ServiceModel?> service) async {
     try {
-      await database.saveService(serviceUser!, service);
+      // await database.saveService(serviceUser!, service);
+    } catch (e) {}
+  }
+
+  fillBaseServices() async {
+    try {
+      servicesData = await database.getBaseServices();
     } catch (e) {}
   }
 }

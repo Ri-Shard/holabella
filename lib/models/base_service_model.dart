@@ -2,7 +2,7 @@ class BaseServiceModel {
   String? name;
   String? price;
   String? category;
-  List<Map>? ambassador;
+  List<String>? ambassador;
 
   BaseServiceModel({this.name, this.price, this.category, this.ambassador});
 

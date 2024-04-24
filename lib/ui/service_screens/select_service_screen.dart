@@ -37,6 +37,7 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
     final _formKey = GlobalKey<FormState>();
 
     final serviceController = Get.find<ServiceController>();
+    serviceController.fillBaseServices();
     sortedServices = {};
     for (BaseServiceModel? e in serviceController.servicesData) {
       if (!sortedServices.containsKey(e!.category)) {
@@ -45,7 +46,7 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
         sortedServices[e.category]!.add(e);
       }
     }
-
+    print(sortedServices);
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -270,15 +271,14 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
                                       .ambassador!
                                       .toList()
                                       .map((e) {
-                                    return SearchFieldListItem<String>(
-                                        e['name'],
+                                    return SearchFieldListItem<String>(e,
                                         child: Text(
-                                          e['name'],
+                                          e,
                                           style: MyTheme.basicTextStyle(
                                               color: MyTheme.ocreOscuro,
                                               fontWeight: FontWeight.w500),
                                         ),
-                                        item: e['email']);
+                                        item: e);
                                   }).toList(),
                                   focusNode: focus3,
                                   controller: _personController,

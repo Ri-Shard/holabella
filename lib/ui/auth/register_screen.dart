@@ -216,7 +216,7 @@ class RegisterScreen extends StatelessWidget {
                                     ],
                                   ),
                                   color: MyTheme.ocreBase,
-                                  ontap: () {
+                                  ontap: () async {
                                     if (_key.currentState!.validate()) {
                                       if (Get.arguments != "password") {
                                         _.signUpMail(
@@ -226,7 +226,7 @@ class RegisterScreen extends StatelessWidget {
                                                 email: email.text.trim(),
                                                 name: name.text.trim(),
                                                 phone: phone.text.trim()));
-                                        _.saveUser(User(
+                                        await _.saveUser(User(
                                             email: email.text.trim(),
                                             name: name.text.trim(),
                                             phone: phone.text.trim()));
