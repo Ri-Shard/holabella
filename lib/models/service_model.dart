@@ -5,8 +5,8 @@ class ServiceModel {
   String? price;
   String? hour;
   String? category;
-  String? id;
-  String? user;
+  int? id_service;
+  String? user_email;
   String? ambassador;
 
   ServiceModel(
@@ -16,8 +16,8 @@ class ServiceModel {
       this.price,
       this.hour,
       this.category,
-      this.id,
-      this.user,
+      this.id_service,
+      this.user_email,
       this.ambassador});
 
   ServiceModel.fromJson(Map<String, dynamic> json) {
@@ -27,9 +27,9 @@ class ServiceModel {
     price = json['price'];
     hour = json['hour'];
     category = json['category'];
-    user = json['user'];
+    user_email = json['user_email'];
     ambassador = json['ambassador'];
-    id = json['id'];
+    id_service = json['id_service'];
   }
 
   Map<String, dynamic> toJson() {
@@ -41,8 +41,7 @@ class ServiceModel {
     data['hour'] = hour;
     data['category'] = category;
     data['ambassador'] = ambassador;
-    data['id'] = id;
-    data['user'] = user;
+    data['user_email'] = user_email;
     return data;
   }
 }

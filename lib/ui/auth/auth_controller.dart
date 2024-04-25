@@ -7,6 +7,7 @@ import '../../models/user_model.dart';
 
 class AuthController extends GetxController {
   final authInstance = auth.FirebaseAuth.instance;
+  User? loggedUser;
   @override
   void onInit() {
     // TODO: implement onInit
@@ -92,6 +93,7 @@ class AuthController extends GetxController {
     if (localUser != null) {
       final response = await DataBaseRepository().verifyUser(localUser.email!);
       if (response != null) {
+        loggedUser = response;
         Get.offAllNamed('/home');
       } else {
         Get.offAllNamed('/register',

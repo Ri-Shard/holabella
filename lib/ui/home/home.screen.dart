@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:holabella/ui/resources/custom_drawer.dart';
 import 'package:holabella/ui/resources/custom_select.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
+import 'package:holabella/ui/service_screens/controller/service_controller.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:sizer/sizer.dart';
 
@@ -15,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final serviceController = Get.find<ServiceController>();
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -193,7 +195,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         tag: 'selectservice',
                         child: Material(
                           child: InkWell(
-                            onTap: () {
+                            onTap: () async {
+                              await serviceController.fillBaseServices();
                               Get.toNamed('/selectservice');
                             },
                             child: Container(

@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:holabella/models/service_model.dart';
 import 'package:holabella/ui/auth/auth_controller.dart';
 import 'package:holabella/ui/resources/bottom_navigation_bar.dart';
 import 'package:holabella/ui/resources/custom_drawer.dart';
 import 'package:holabella/ui/resources/custom_select.dart';
 import 'package:holabella/ui/resources/custom_text.dart';
 import 'package:holabella/ui/resources/my_theme.dart';
+import 'package:holabella/ui/service_screens/controller/service_controller.dart';
 import 'package:sizer/sizer.dart';
 
 class SuccessPayScreen extends StatefulWidget {
@@ -19,6 +21,8 @@ class SuccessPayScreen extends StatefulWidget {
 }
 
 class _SuccessPayScreenState extends State<SuccessPayScreen> {
+  final serviceController = Get.find<ServiceController>();
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -125,7 +129,10 @@ class _SuccessPayScreenState extends State<SuccessPayScreen> {
                   margin: const EdgeInsets.all(20),
                   child: InkWell(
                     onTap: () {
-                      Get.toNamed('/home');
+                      serviceController.newServicesData.clear();
+                      ServiceModel model = ServiceModel();
+                      serviceController.newService = model;
+                      Get.offAllNamed('/home');
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

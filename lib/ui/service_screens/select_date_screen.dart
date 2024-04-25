@@ -24,6 +24,7 @@ class SelectDateScreen extends StatefulWidget {
 List<DateTime?> _dates = [];
 DateTime date = DateTime.now();
 String selectDate = '';
+String selectDateNoFormat = '';
 String selectedHour = '';
 
 class _SelectDateScreenState extends State<SelectDateScreen> {
@@ -124,7 +125,6 @@ class _SelectDateScreenState extends State<SelectDateScreen> {
                                     .format(_dates[0]!);
 
                                 _showHourPicker();
-                                _.update(['servicehour']);
                               },
                             ),
                             Row(
@@ -180,11 +180,11 @@ class _SelectDateScreenState extends State<SelectDateScreen> {
                         } else {
                           serviceController.newService?.hour = selectedHour;
                           serviceController.newService?.date =
-                              _dates[0].toString();
+                              selectDateNoFormat;
 
                           serviceController.newServicesData
                               .add(serviceController.newService);
-                          Get.toNamed('/serviceresume', arguments: selectDate);
+                          Get.toNamed('/serviceresume');
                         }
                       },
                       child: Row(
@@ -268,49 +268,76 @@ class _SelectDateScreenState extends State<SelectDateScreen> {
                             color: MyTheme.ocreBase),
                       ),
                     ),
-                    Obx(() {
-                      return SizedBox(
-                        height: 40.h,
-                        child: GridView.count(
-                          scrollDirection: Axis.vertical,
-                          physics: NeverScrollableScrollPhysics(),
-                          padding: EdgeInsets.all(8),
-                          mainAxisSpacing: 8,
-                          crossAxisSpacing: 8,
-                          childAspectRatio: 2 / 1,
-                          crossAxisCount: 4,
-                          children: List.generate(hours.length, (index) {
-                            return InkWell(
-                              onTap: () {
-                                hourIndex.value = index;
-                                hours[index].status == 1
-                                    ? hours[index].status = 0
-                                    : hours[index].status = 1;
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: MyTheme.ocreBase),
-                                  color: hourIndex.value == index
-                                      ? MyTheme.ocreBase
-                                      : Colors.transparent,
-                                ),
-                                child: Center(
-                                    child: Text(
-                                  hours[index].hour!,
-                                  style: MyTheme.basicTextStyle(
-                                    size: 15,
-                                    color: hourIndex.value == index
-                                        ? Colors.white
-                                        : MyTheme.ocreBase,
-                                  ),
-                                )),
+                    StreamBuilder<List>(
+                        stream: serviceController.getAmbassadorServices(
+                            serviceController.newService!.ambassador!,
+                            _dates[0].toString()),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          for (var data in snapshot.data!) {
+                            final auxHour = hours.firstWhere(
+                                (element) => element.hour == data['hour'],
+                                orElse: () =>
+                                    Schedule(hour: '00:00', status: -1));
+                            if (auxHour.status != -1) {
+                              auxHour.status = 2;
+                            }
+                          }
+
+                          print(snapshot);
+                          return Obx(() {
+                            return SizedBox(
+                              height: 40.h,
+                              child: GridView.count(
+                                scrollDirection: Axis.vertical,
+                                physics: NeverScrollableScrollPhysics(),
+                                padding: EdgeInsets.all(8),
+                                mainAxisSpacing: 8,
+                                crossAxisSpacing: 8,
+                                childAspectRatio: 2 / 1,
+                                crossAxisCount: 4,
+                                children: List.generate(hours.length, (index) {
+                                  return InkWell(
+                                    onTap: hours[index].status == 2
+                                        ? () {}
+                                        : () {
+                                            hourIndex.value = index;
+                                            hours[index].status == 1
+                                                ? hours[index].status = 0
+                                                : hours[index].status = 1;
+                                          },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border:
+                                            Border.all(color: MyTheme.ocreBase),
+                                        color: hourIndex.value == index
+                                            ? MyTheme.ocreBase
+                                            : hours[index].status == 2
+                                                ? Colors.grey
+                                                : Colors.transparent,
+                                      ),
+                                      child: Center(
+                                          child: Text(
+                                        hours[index].hour!,
+                                        style: MyTheme.basicTextStyle(
+                                          size: 15,
+                                          color: hourIndex.value == index
+                                              ? Colors.white
+                                              : MyTheme.ocreBase,
+                                        ),
+                                      )),
+                                    ),
+                                  );
+                                }),
                               ),
                             );
-                          }),
-                        ),
-                      );
-                    }),
+                          });
+                        }),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: Row(
@@ -349,7 +376,11 @@ class _SelectDateScreenState extends State<SelectDateScreen> {
           ],
         );
       },
-    );
+    ).whenComplete(() {
+      selectDateNoFormat = _dates[0].toString();
+      _dates = [];
+      serviceController.update(['servicehour']);
+    });
   }
 
   bool isWithinWorkingHours(TimeOfDay timeOfDay) {

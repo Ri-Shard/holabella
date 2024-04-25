@@ -98,7 +98,7 @@ class _ServiceResumeScreenState extends State<ServiceResumeScreen> {
                                         person: serviceController
                                             .newServicesData[index]?.person,
                                         date:
-                                            '${Get.arguments} ${serviceController.newServicesData[index]!.hour}',
+                                            '${DateFormat('EEE, MMM dd', 'es').format(DateTime.parse(serviceController.newServicesData[index]!.date!))} ${serviceController.newServicesData[index]!.hour}',
                                         price: serviceController
                                             .newServicesData[index]?.price,
                                         iconbutton: IconButton(

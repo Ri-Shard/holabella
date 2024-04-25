@@ -8,27 +8,21 @@ class DataBaseServiceRepository {
   final firestore = fire.FirebaseFirestore.instance;
   final supabase = supa.Supabase.instance.client;
 
-  // Future<dynamic> saveService(User user, List<ServiceModel?> service) async {
-  //   try {
-  //     for (var serv in service) {
-  //       serv!.id = user.email!.split('@').first +
-  //           serv.ambassador!
-  //               .split('@')
-  //               .first; //TODO correo split @ +correo split @ + hora servicio
-  //       serv.user = user.email;
-  //       await Future.delayed(const Duration(milliseconds: 500));
-  //       await firestore
-  //           .collection('ambassadorhistory')
-  //           .doc(serv.ambassador)
-  //           .set({serv.id!: serv.toJson()}, SetOptions(merge: true)).then(
-  //               (data) {});
-  //       await firestore.collection('usershistory').doc(serv.user).set(
-  //           {serv.id!: serv.toJson()}, SetOptions(merge: true)).then((data) {});
-  //     }
-  //   } catch (e) {
-  //     return '-1';
-  //   }
-  // }
+  Future<dynamic> saveService(User user, List<ServiceModel?> service) async {
+    try {
+      for (var serv in service) {
+        serv!.id_service = -1;
+        serv.user_email = user.email;
+        await Future.delayed(const Duration(milliseconds: 500));
+
+        final response =
+            await supabase.from('ambassador_history').insert(serv.toJson());
+        print(response);
+      }
+    } catch (e) {
+      return '-1';
+    }
+  }
 
   Future<List<BaseServiceModel?>> getBaseServices() async {
     try {
@@ -50,14 +44,23 @@ class DataBaseServiceRepository {
     }
   }
 
-  Future<List<ServiceModel?>> getHistoryServices() async {
-    try {
-      return await firestore.collection("ambassadorhistory").get().then((data) {
-        List<ServiceModel?> services = [];
-        return services;
-      });
-    } catch (e) {
-      return [];
-    }
+  // Future<List<ServiceModel?>> getHistoryServices() async {
+  //   try {
+  //     return await firestore.collection("ambassadorhistory").get().then((data) {
+  //       List<ServiceModel?> services = [];
+  //       return services;
+  //     });
+  //   } catch (e) {
+  //     return [];
+  //   }
+  // }
+
+  Stream getAmbassadorServices(String ambassador_email, String date) {
+    return supabase
+        .from('ambassador_history')
+        .select('hour')
+        .eq('ambassador', ambassador_email)
+        .eq('date', date)
+        .asStream();
   }
 }

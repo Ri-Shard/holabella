@@ -28,6 +28,8 @@ class _FillDataScreenState extends State<FillDataScreen> {
   @override
   Widget build(BuildContext context) {
     email.text = authController.authInstance.currentUser!.email!;
+    name.text = authController.loggedUser!.name!;
+    phone.text = authController.loggedUser!.phone!;
     final serviceController = Get.find<ServiceController>();
 
     return Stack(

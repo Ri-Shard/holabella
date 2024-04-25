@@ -37,7 +37,6 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
     final _formKey = GlobalKey<FormState>();
 
     final serviceController = Get.find<ServiceController>();
-    serviceController.fillBaseServices();
     sortedServices = {};
     for (BaseServiceModel? e in serviceController.servicesData) {
       if (!sortedServices.containsKey(e!.category)) {
